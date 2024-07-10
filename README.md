@@ -36,4 +36,4 @@ Proyek ini adalah contoh implementasi RESTful API menggunakan Spring Boot dan Ja
    ```bash
    mvn spring-boot:run
    
-6. **NB: Cara run project java banyak cara**
+6. **NB: Diharapkan sebelumnya anda mengerti bagaimana cara run project java**
