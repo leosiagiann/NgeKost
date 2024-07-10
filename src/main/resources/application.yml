@@ -1,0 +1,38 @@
+server:
+  port: 8888
+
+spring:
+  application:
+    name: NgeKost
+
+  datasource:
+    url: jdbc:mysql://${MYSQL_HOST:localhost:3306}/${MYSQL_DB_NAME:ngekost}?createDatabaseIfNotExist=true
+    username: ${DATABASE_USER:root}
+    password: ${DATABASE_PASSWORD:}
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    hikari:
+      maximum-pool-size: ${HIKARI_POOL_SIZE:1}
+
+  jpa:
+    generate-ddl: false
+    show-sql: true
+    properties.hibernate.format_sql: true
+    hibernate.ddl-auto: none
+
+  flyway:
+    enabled: true
+    baselineOnMigrate: true
+    validateOnMigrate: true
+    locations: classpath:db/migration
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"  # Mengizinkan semua endpoint actuator diakses melalui web
+  endpoint:
+    health:
+      show-details: always
+
+encrypt:
+  secret-key: 876d9a0f2917f4ff78ccde6214376996872d10b9c822ddd448376061dd346e56
