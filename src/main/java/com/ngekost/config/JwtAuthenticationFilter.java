@@ -35,11 +35,6 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             @NonNull HttpServletResponse response,
             @NonNull FilterChain filterChain
     ) throws ServletException, IOException {
-        response.setHeader("Access-Control-Allow-Origin", "*");
-        response.setHeader("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
-        response.setHeader("Access-Control-Max-Age", "3600");
-        response.setHeader("Access-Control-Allow-Headers", "authorization, content-type, xsrf-token");
-        response.addHeader("Access-Control-Expose-Headers", "xsrf-token");
         final String authorizationHeader = request.getHeader("Authorization");
         final String jwtToken, userEmail;
         if (Objects.isNull(authorizationHeader) || !authorizationHeader.startsWith("Bearer ")) {
