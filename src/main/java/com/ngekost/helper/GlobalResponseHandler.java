@@ -1,6 +1,6 @@
 package com.ngekost.helper;
 
-import com.ngekost.dto.response.GlobalResponse;
+import com.ngekost.dto.response.GlobalResponseDTO;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
@@ -12,7 +12,7 @@ import java.util.Map;
  * @date : 7/9/2024
  */
 public class GlobalResponseHandler {
-    public static <T> ResponseEntity<GlobalResponse<T>> buildSuccessResponse(T data, HttpStatus httpStatus, Map<String, Object> additionalInfo) {
+    public static <T> ResponseEntity<GlobalResponseDTO<T>> buildSuccessResponse(T data, HttpStatus httpStatus, Map<String, Object> additionalInfo) {
         if (additionalInfo != null && !additionalInfo.isEmpty()) {
             if (data instanceof Map) { // Check if data is already a Map
                 ((Map<String, Object>) data).putAll(additionalInfo);
@@ -25,17 +25,17 @@ public class GlobalResponseHandler {
             }
         }
 
-        GlobalResponse<T> response = new GlobalResponse<>();
+        GlobalResponseDTO<T> response = new GlobalResponseDTO<>();
         response.setStatus("success");
         response.setData(data);
         return new ResponseEntity<>(response, httpStatus);
     }
 
-    public static <T> ResponseEntity<GlobalResponse<T>> buildSuccessResponse(T data, HttpStatus httpStatus) {
+    public static <T> ResponseEntity<GlobalResponseDTO<T>> buildSuccessResponse(T data, HttpStatus httpStatus) {
         return buildSuccessResponse(data, httpStatus, null);
     }
 
-    public static <T> ResponseEntity<GlobalResponse<Map<String, Object>>> buildErrorResponse(String message, HttpStatus httpStatus, Map<String, Object> additionalInfo) {
+    public static <T> ResponseEntity<GlobalResponseDTO<Map<String, Object>>> buildErrorResponse(String message, HttpStatus httpStatus, Map<String, Object> additionalInfo) {
         Map<String, Object> errorData = new HashMap<>();
         errorData.put("errorMessage", message);
 
@@ -43,13 +43,13 @@ public class GlobalResponseHandler {
             errorData.putAll(additionalInfo);
         }
 
-        GlobalResponse<Map<String, Object>> response = new GlobalResponse<>();
+        GlobalResponseDTO<Map<String, Object>> response = new GlobalResponseDTO<>();
         response.setStatus("error");
         response.setData(errorData);
         return new ResponseEntity<>(response, httpStatus);
     }
 
-    public static <T> ResponseEntity<GlobalResponse<Map<String, Object>>> buildErrorResponse(String message, HttpStatus httpStatus) {
+    public static <T> ResponseEntity<GlobalResponseDTO<Map<String, Object>>> buildErrorResponse(String message, HttpStatus httpStatus) {
         return buildErrorResponse(message, httpStatus, null);
     }
 }

@@ -7,7 +7,7 @@ import lombok.Data;
  * @date : 7/9/2024
  */
 @Data
-public class GlobalResponse<T> {
+public class GlobalResponseDTO<T> {
     private String status;
     private T data;
 }

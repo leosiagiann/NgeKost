@@ -35,6 +35,11 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             @NonNull HttpServletResponse response,
             @NonNull FilterChain filterChain
     ) throws ServletException, IOException {
+        response.setHeader("Access-Control-Allow-Origin", "*");
+        response.setHeader("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
+        response.setHeader("Access-Control-Max-Age", "3600");
+        response.setHeader("Access-Control-Allow-Headers", "authorization, content-type, xsrf-token");
+        response.addHeader("Access-Control-Expose-Headers", "xsrf-token");
         final String authorizationHeader = request.getHeader("Authorization");
         final String jwtToken, userEmail;
         if (Objects.isNull(authorizationHeader) || !authorizationHeader.startsWith("Bearer ")) {
@@ -43,7 +48,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         }
         jwtToken = authorizationHeader.substring(7);
         userEmail = jwtService.extractUsername(jwtToken);
-        if (Objects.isNull(userEmail) && Objects.isNull(SecurityContextHolder.getContext().getAuthentication())) {
+        if (Objects.nonNull(userEmail) && Objects.isNull(SecurityContextHolder.getContext().getAuthentication())) {
             UserDetails userDetails = this.userDetailsService.loadUserByUsername(userEmail);
             if (jwtService.isTokenValid(jwtToken, userDetails)) {
                 UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(
@@ -54,6 +59,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                 authentication.setDetails(
                         new WebAuthenticationDetailsSource().buildDetails(request)
                 );
+                SecurityContextHolder.getContext().setAuthentication(authentication);
             }
         }
         filterChain.doFilter(request, response);

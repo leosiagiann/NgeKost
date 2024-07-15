@@ -8,13 +8,9 @@ import lombok.Data;
  * @date : 7/9/2024
  */
 @Data
-public class RegisterRequest {
-    private String firstname;
-    private String lastname;
+public class AuthenticateRequestDTO {
     @NotBlank
     private String email;
     @NotBlank
     private String password;
-    @NotBlank
-    private String key;
 }

@@ -6,5 +6,5 @@ package com.ngekost.enums;
  */
 public enum Role {
     OWNER,
-    COST_KEEPER
+    RENT_KEEPER
 }

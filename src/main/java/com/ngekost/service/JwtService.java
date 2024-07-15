@@ -1,6 +1,7 @@
 package com.ngekost.service;
 
 import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.Jws;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.io.Decoders;
@@ -62,12 +63,15 @@ public class JwtService {
     }
 
     private Claims extractClaims(String token) {
-        return Jwts
-                .parserBuilder()
-                .setSigningKey(getSignInKey())
-                .build()
-                .parseClaimsJwt(token)
-                .getBody();
+        try {
+            Jws<Claims> jws = Jwts.parserBuilder()
+                    .setSigningKey(getSignInKey())
+                    .build()
+                    .parseClaimsJws(token);
+            return jws.getBody();
+        } catch (Exception e) {
+            throw new RuntimeException("Error parsing JWT claims", e);
+        }
     }
 
     private Key getSignInKey() {

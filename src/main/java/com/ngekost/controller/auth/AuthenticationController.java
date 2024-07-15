@@ -1,7 +1,7 @@
 package com.ngekost.controller.auth;
 
-import com.ngekost.dto.request.AuthenticateRequest;
-import com.ngekost.dto.request.RegisterRequest;
+import com.ngekost.dto.request.AuthenticateRequestDTO;
+import com.ngekost.dto.request.RegisterRequestDTO;
 import com.ngekost.helper.GlobalResponseHandler;
 import com.ngekost.service.AuthenticationService;
 import jakarta.validation.Valid;
@@ -27,12 +27,12 @@ public class AuthenticationController {
     }
 
     @PostMapping("/register")
-    public ResponseEntity<?> register(@RequestBody @Valid RegisterRequest request) {
+    public ResponseEntity<?> register(@RequestBody @Valid RegisterRequestDTO request) {
         return GlobalResponseHandler.buildSuccessResponse(authenticationService.register(request), HttpStatus.CREATED);
     }
 
     @PostMapping("/login")
-    public ResponseEntity<?> login(@RequestBody @Valid AuthenticateRequest request) {
+    public ResponseEntity<?> login(@RequestBody @Valid AuthenticateRequestDTO request) {
         return GlobalResponseHandler.buildSuccessResponse(authenticationService.login(request), HttpStatus.CREATED);
     }
 }

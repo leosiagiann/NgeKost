@@ -1,8 +1,8 @@
 package com.ngekost.service;
 
-import com.ngekost.dto.request.AuthenticateRequest;
-import com.ngekost.dto.request.RegisterRequest;
-import com.ngekost.dto.response.AuthenticationResponse;
+import com.ngekost.dto.request.AuthenticateRequestDTO;
+import com.ngekost.dto.request.RegisterRequestDTO;
+import com.ngekost.dto.response.AuthenticationResponseDTO;
 import com.ngekost.entity.User;
 import com.ngekost.enums.Role;
 import com.ngekost.repository.UserRepository;
@@ -27,8 +27,8 @@ public class AuthenticationService {
     private final JwtService jwtService;
     private final AuthenticationManager authenticationManager;
 
-    public AuthenticationResponse register(RegisterRequest request) {
-        if (Objects.equals(request.getKey(), "coba")) {
+    public AuthenticationResponseDTO register(RegisterRequestDTO request) {
+        if (Objects.nonNull(request.getKey()) && Objects.equals(request.getKey(), "coba")) {
             User user = new User()
                     .setFirstname(request.getFirstname())
                     .setLastname(request.getLastname())
@@ -37,14 +37,14 @@ public class AuthenticationService {
                     .setRole(Role.OWNER);
             userRepository.save(user);
             String jwtToken = jwtService.generateToken(user);
-            return AuthenticationResponse.builder()
+            return AuthenticationResponseDTO.builder()
                     .token(jwtToken)
                     .build();
         }
-        return AuthenticationResponse.builder().build();
+        return AuthenticationResponseDTO.builder().build();
     }
 
-    public AuthenticationResponse login(AuthenticateRequest request) {
+    public AuthenticationResponseDTO login(AuthenticateRequestDTO request) {
         authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
                         request.getEmail(),
@@ -53,7 +53,7 @@ public class AuthenticationService {
         );
         User user = userRepository.findByEmail(request.getEmail()).orElseThrow(() -> new RuntimeException("User not found"));
         String jwtToken = jwtService.generateToken(user);
-        return AuthenticationResponse.builder()
+        return AuthenticationResponseDTO.builder()
                 .token(jwtToken)
                 .build();
     }
