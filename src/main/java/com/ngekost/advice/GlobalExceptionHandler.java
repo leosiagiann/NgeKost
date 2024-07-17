@@ -8,6 +8,8 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
+import java.util.stream.Collectors;
+
 /**
  * @author : Leonardo Siagian
  * @date : 7/17/2024
@@ -24,8 +26,7 @@ public class GlobalExceptionHandler {
     public ResponseEntity<?> handleMethodArgumentNotValidException(MethodArgumentNotValidException ex) {
         String errorMessage = ex.getBindingResult().getFieldErrors().stream()
                 .map(fieldError -> fieldError.getField() + ": " + fieldError.getDefaultMessage())
-                .findFirst()
-                .orElse("Validation Error");
+                .collect(Collectors.joining(", "));
         ErrorResponseDTO errorResponse = new ErrorResponseDTO("Validation Error", errorMessage);
         return GlobalResponseHandler.buildErrorResponse(errorResponse, HttpStatus.BAD_REQUEST);
     }
