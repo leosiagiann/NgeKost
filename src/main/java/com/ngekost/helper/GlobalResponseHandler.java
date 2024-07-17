@@ -1,5 +1,6 @@
 package com.ngekost.helper;
 
+import com.ngekost.dto.response.ErrorResponseDTO;
 import com.ngekost.dto.response.GlobalResponseDTO;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -35,9 +36,10 @@ public class GlobalResponseHandler {
         return buildSuccessResponse(data, httpStatus, null);
     }
 
-    public static <T> ResponseEntity<GlobalResponseDTO<Map<String, Object>>> buildErrorResponse(String message, HttpStatus httpStatus, Map<String, Object> additionalInfo) {
+    public static ResponseEntity<GlobalResponseDTO<Map<String, Object>>> buildErrorResponse(ErrorResponseDTO message, HttpStatus httpStatus, Map<String, Object> additionalInfo) {
         Map<String, Object> errorData = new HashMap<>();
-        errorData.put("errorMessage", message);
+        errorData.put("error", message.getError());
+        errorData.put("message", message.getMessage());
 
         if (additionalInfo != null && !additionalInfo.isEmpty()) {
             errorData.putAll(additionalInfo);
@@ -49,7 +51,7 @@ public class GlobalResponseHandler {
         return new ResponseEntity<>(response, httpStatus);
     }
 
-    public static <T> ResponseEntity<GlobalResponseDTO<Map<String, Object>>> buildErrorResponse(String message, HttpStatus httpStatus) {
+    public static ResponseEntity<GlobalResponseDTO<Map<String, Object>>> buildErrorResponse(ErrorResponseDTO message, HttpStatus httpStatus) {
         return buildErrorResponse(message, httpStatus, null);
     }
 }
