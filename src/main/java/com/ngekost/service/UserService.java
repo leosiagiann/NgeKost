@@ -65,4 +65,13 @@ public class UserService {
         userRepository.save(user);
     }
 
+    public void delete(Long id) {
+        User user = userRepository.findByIdAndIsActiveTrue(id).orElseThrow(() -> new RuntimeException("User not found"));
+        if (!Objects.equals(user.getRole(), Role.RENT_KEEPER)) {
+            throw new RuntimeException("Cannot delete OWNER account");
+        }
+        user.setActive(false);
+        userRepository.save(user);
+    }
+
 }
