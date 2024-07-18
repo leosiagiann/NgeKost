@@ -22,8 +22,8 @@ public class UserController {
     private final UserService userService;
 
     @GetMapping
-    public ResponseEntity<?> test() {
-        return GlobalResponseHandler.buildSuccessResponse("Test Okay", HttpStatus.OK);
+    public ResponseEntity<?> getAllUserRentKeeper() {
+        return GlobalResponseHandler.buildSuccessResponse(userService.getAllUserRentKeeper(), HttpStatus.OK);
     }
 
     @PostMapping("/register")
