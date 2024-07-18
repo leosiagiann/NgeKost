@@ -1,6 +1,7 @@
 package com.ngekost.controller;
 
 import com.ngekost.dto.request.RoomRequestDTO;
+import com.ngekost.dto.request.RoomUpdateRequestDTO;
 import com.ngekost.helper.GlobalResponseHandler;
 import com.ngekost.service.RoomService;
 import jakarta.validation.Valid;
@@ -28,5 +29,10 @@ public class RoomController {
     @PostMapping
     public void add(@RequestBody @Valid RoomRequestDTO request) {
         roomService.add(request);
+    }
+
+    @PutMapping("{id}")
+    public void update(@PathVariable Long id, @RequestBody @Valid RoomUpdateRequestDTO request) {
+        roomService.update(id, request);
     }
 }
