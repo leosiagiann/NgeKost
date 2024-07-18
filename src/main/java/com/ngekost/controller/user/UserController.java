@@ -1,6 +1,7 @@
 package com.ngekost.controller.user;
 
 import com.ngekost.dto.request.RegisterRequestDTO;
+import com.ngekost.dto.request.UserUpdateRequestDTO;
 import com.ngekost.helper.GlobalResponseHandler;
 import com.ngekost.service.UserService;
 import jakarta.validation.Valid;
@@ -30,4 +31,8 @@ public class UserController {
         userService.register(request);
     }
 
+    @PutMapping("/{id}")
+    public void updateUser(@PathVariable Long id, @RequestBody UserUpdateRequestDTO request) {
+        userService.update(id, request);
+    }
 }
