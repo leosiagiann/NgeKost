@@ -24,7 +24,7 @@ public class RoomService {
 
     public List<RoomResponseDTO> getAllRooms() {
         List<RoomResponseDTO> responses = new ArrayList<>();
-        List<Room> rooms = roomRepository.findAll();
+        List<Room> rooms = roomRepository.findByIsActiveTrue();
         rooms.forEach(room -> {
             RoomResponseDTO roomResponseDTO = new RoomResponseDTO();
             roomResponseDTO.setId(room.getId());
@@ -39,7 +39,7 @@ public class RoomService {
     }
 
     public RoomResponseDTO getRoomById(Long id) {
-        Room room = roomRepository.findById(id).orElse(null);
+        Room room = roomRepository.findByIdAndIsActiveTrue(id).orElse(null);
         if (Objects.isNull(room)) {
             return null;
         }
@@ -63,7 +63,7 @@ public class RoomService {
     }
 
     public void update(Long id, RoomUpdateRequestDTO request) {
-        Room room = roomRepository.findById(id).orElseThrow(() -> new RuntimeException("Room not found"));
+        Room room = roomRepository.findByIdAndIsActiveTrue(id).orElseThrow(() -> new RuntimeException("Room not found"));
         if (Objects.nonNull(request.getRoomNumber())) {
             room.setRoomNumber(request.getRoomNumber());
         }
@@ -80,8 +80,9 @@ public class RoomService {
     }
 
     public void delete(Long id) {
-        Room room = roomRepository.findById(id).orElseThrow(() -> new RuntimeException("Room not found"));
-        roomRepository.delete(room);
+        Room room = roomRepository.findByIdAndIsActiveTrue(id).orElseThrow(() -> new RuntimeException("Room not found"));
+        room.setActive(Boolean.FALSE);
+        roomRepository.save(room);
     }
 
 }
