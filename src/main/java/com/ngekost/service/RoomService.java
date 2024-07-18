@@ -38,6 +38,21 @@ public class RoomService {
         return responses;
     }
 
+    public RoomResponseDTO getRoomById(Long id) {
+        Room room = roomRepository.findById(id).orElse(null);
+        if (Objects.isNull(room)) {
+            return null;
+        }
+        RoomResponseDTO responseDTO = new RoomResponseDTO();
+        responseDTO.setId(room.getId());
+        responseDTO.setRoomNumber(room.getRoomNumber());
+        responseDTO.setFloor(room.getFloor());
+        responseDTO.setPrice(room.getPrice());
+        responseDTO.setFacilities(room.getFacilities());
+        responseDTO.setStatus(room.getStatus());
+        return responseDTO;
+    }
+
     public void add(RoomRequestDTO request) {
         roomRepository.save(new Room().builder()
                 .roomNumber(request.getRoomNumber())

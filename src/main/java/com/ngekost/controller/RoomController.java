@@ -26,6 +26,11 @@ public class RoomController {
         return GlobalResponseHandler.buildSuccessResponse(roomService.getAllRooms(), HttpStatus.OK);
     }
 
+    @GetMapping("/{id}")
+    public ResponseEntity<?> getRoomById(@PathVariable Long id) {
+        return GlobalResponseHandler.buildSuccessResponse(roomService.getRoomById(id), HttpStatus.OK);
+    }
+
     @PostMapping
     public void add(@RequestBody @Valid RoomRequestDTO request) {
         roomService.add(request);
