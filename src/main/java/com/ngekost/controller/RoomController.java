@@ -31,8 +31,13 @@ public class RoomController {
         roomService.add(request);
     }
 
-    @PutMapping("{id}")
+    @PutMapping("/{id}")
     public void update(@PathVariable Long id, @RequestBody @Valid RoomUpdateRequestDTO request) {
         roomService.update(id, request);
+    }
+
+    @DeleteMapping("/{id}")
+    public void delete(@PathVariable Long id) {
+        roomService.delete(id);
     }
 }
