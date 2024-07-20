@@ -1,4 +1,4 @@
-package com.ngekost.service;
+package com.ngekost.service.impl;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jws;

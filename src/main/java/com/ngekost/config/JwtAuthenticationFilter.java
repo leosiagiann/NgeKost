@@ -1,6 +1,6 @@
 package com.ngekost.config;
 
-import com.ngekost.service.JwtService;
+import com.ngekost.service.impl.JwtService;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
