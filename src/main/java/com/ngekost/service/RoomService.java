@@ -14,6 +14,8 @@ public interface RoomService {
 
     List<RoomResponseDTO> getAllRooms();
 
+    List<RoomResponseDTO> getAllEmptyRooms();
+
     RoomResponseDTO getRoomById(Long id);
 
     void add(RoomRequestDTO request);

@@ -11,7 +11,9 @@ import java.util.Optional;
  * @date : 7/15/2024
  */
 public interface RoomRepository extends JpaRepository<Room, Long> {
+
     Optional<Room> findByIdAndIsActiveTrue(Long id);
 
     List<Room> findByIsActiveTrue();
+
 }

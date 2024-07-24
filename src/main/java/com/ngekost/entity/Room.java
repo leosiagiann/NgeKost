@@ -27,7 +27,4 @@ public class Room extends BaseEntity {
     private String facilities;
     @Builder.Default
     private String status = "available";
-
-    @OneToOne(mappedBy = "room")
-    private Tenant tenant;
 }

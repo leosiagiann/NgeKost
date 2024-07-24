@@ -27,8 +27,5 @@ public class Tenant extends BaseEntity {
     private String phoneNumber;
     private String idNumber;
     private LocalDateTime lastPayment;
-
-    @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "room_id")
-    private Room room;
+    private Long roomId;
 }

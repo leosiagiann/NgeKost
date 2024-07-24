@@ -26,6 +26,11 @@ public class RoomController {
         return GlobalResponseHandler.buildSuccessResponse(roomService.getAllRooms(), HttpStatus.OK);
     }
 
+    @GetMapping("/empty")
+    public ResponseEntity<?> getAllEmptyRooms() {
+        return GlobalResponseHandler.buildSuccessResponse(roomService.getAllEmptyRooms(), HttpStatus.OK);
+    }
+
     @GetMapping("/{id}")
     public ResponseEntity<?> getRoomById(@PathVariable Long id) {
         return GlobalResponseHandler.buildSuccessResponse(roomService.getRoomById(id), HttpStatus.OK);
@@ -37,7 +42,7 @@ public class RoomController {
     }
 
     @PutMapping("/{id}")
-    public void update(@PathVariable Long id, @RequestBody @Valid RoomUpdateRequestDTO request) {
+    public void update(@PathVariable Long id, @RequestBody RoomUpdateRequestDTO request) {
         roomService.update(id, request);
     }
 

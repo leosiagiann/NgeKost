@@ -4,7 +4,9 @@ import com.ngekost.dto.request.RoomRequestDTO;
 import com.ngekost.dto.request.RoomUpdateRequestDTO;
 import com.ngekost.dto.response.RoomResponseDTO;
 import com.ngekost.entity.Room;
+import com.ngekost.entity.Tenant;
 import com.ngekost.repository.RoomRepository;
+import com.ngekost.repository.TenantRepository;
 import com.ngekost.service.RoomService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -12,6 +14,8 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 /**
  * @author : Leonardo Siagian
@@ -22,12 +26,33 @@ import java.util.Objects;
 public class RoomServiceImpl implements RoomService {
 
     private final RoomRepository roomRepository;
+    private final TenantRepository tenantRepository;
 
     @Override
     public List<RoomResponseDTO> getAllRooms() {
         List<RoomResponseDTO> responses = new ArrayList<>();
         List<Room> rooms = roomRepository.findByIsActiveTrue();
         rooms.forEach(room -> {
+            RoomResponseDTO roomResponseDTO = new RoomResponseDTO();
+            roomResponseDTO.setId(room.getId());
+            roomResponseDTO.setRoomNumber(room.getRoomNumber());
+            roomResponseDTO.setFloor(room.getFloor());
+            roomResponseDTO.setPrice(room.getPrice());
+            roomResponseDTO.setFacilities(room.getFacilities());
+            roomResponseDTO.setStatus(room.getStatus());
+            responses.add(roomResponseDTO);
+        });
+        return responses;
+    }
+
+    @Override
+    public List<RoomResponseDTO> getAllEmptyRooms() {
+        List<RoomResponseDTO> responses = new ArrayList<>();
+        List<Room> rooms = roomRepository.findByIsActiveTrue();
+        List<Tenant> tenants = tenantRepository.findByIsActiveTrue();
+        Set<Long> occupiedRooms = tenants.stream().map(Tenant::getRoomId).collect(Collectors.toSet());
+        List<Room> emptyRooms = rooms.stream().filter(r -> !occupiedRooms.contains(r.getId())).toList();
+        emptyRooms.forEach(room -> {
             RoomResponseDTO roomResponseDTO = new RoomResponseDTO();
             roomResponseDTO.setId(room.getId());
             roomResponseDTO.setRoomNumber(room.getRoomNumber());
